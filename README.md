@@ -1,4 +1,9 @@
-# ☀️ GM
+# ☀️ ECHO - Turn Any Cast Into a Song with this Cast Action | Bot
+
+WIP.
+
+
+## Using Airstack: 
 
 A Farcaster [Cast Actions](https://warpcast.com/~/add-cast-action?actionType=post&name=GM&icon=sun&postUrl=https%3A%2F%2Fgm-fc.vercel.app%2Fapi%2Fgm) starter template built with [Airstack Frog Recipes](https://docs.airstack.xyz/airstack-docs-and-faqs/frames/airstack-frog-recipes-and-middleware).
 
