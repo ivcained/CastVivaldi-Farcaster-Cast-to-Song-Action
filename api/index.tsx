@@ -78,8 +78,10 @@ app.hono.post("/action", async (c) => {
     // create the cast reply under the thread
     const castReplyResult = await makeCastAdd(
       {
-        text: "Hello World",
-        embeds: [{ url: "https://farcaster.xyz" }], // add audio URL here
+        text: "Here's your Ecco!",
+        embeds: [
+          { url: "https://suno.com/song/3b3ebc12-fc09-4d69-ac21-efd13423e534" },
+        ], // add audio URL here
         embedsDeprecated: [],
         mentions: [interactorFid],
         mentionsPositions: [], // need to add FID mentions position
