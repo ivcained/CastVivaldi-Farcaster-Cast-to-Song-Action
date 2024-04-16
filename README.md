@@ -1,4 +1,4 @@
-# ☀️ ECHO - Turn Any Cast Into a Song with this Cast Action | Bot
+# 🐬 ECHO - Turn Any Cast Into a Song with this Cast Action | Bot
 
 WIP.
 
