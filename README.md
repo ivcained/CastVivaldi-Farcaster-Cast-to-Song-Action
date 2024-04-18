@@ -1,5 +1,25 @@
 # 🐬 CastVivaldi - Turn Any Cast Into a Song with this Cast Action | Bot
 
+https://github.com/ivcained/CastVivaldi-Farcaster-Cast-to-Song-Action/assets/86070833/c9ec9e61-f6b6-4cac-a4fe-b383a376abf9
+
+
+https://github.com/ivcained/CastVivaldi-Farcaster-Cast-to-Song-Action/assets/86070833/e6d32bb4-8a52-4b72-8713-b1f370721b04
+
+
+
+https://github.com/ivcained/CastVivaldi-Farcaster-Cast-to-Song-Action/assets/86070833/1f499aa7-14b5-4939-8145-752895faa43d
+
+
+
+https://github.com/ivcained/CastVivaldi-Farcaster-Cast-to-Song-Action/assets/86070833/388ee33b-3296-4014-86da-f79693e42e08
+
+
+
+https://github.com/ivcained/CastVivaldi-Farcaster-Cast-to-Song-Action/assets/86070833/a0833f60-6f48-4e9f-a577-e3e931b650fa
+
+
+
+
 <<<<<<< HEAD
 WIP.
     
