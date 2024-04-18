@@ -3,7 +3,7 @@
 ## How to Turn Any Cast into a Song:
 
 Tap the Vivaldi Cast Action button on any cast.
-[@castvivaldi](https://warpcast.com/castvivaldi) will reply with the estimate time for generation.
+[@castvivaldi](https://warpcast.com/castvivaldi) will reply with the estimate time for generation.<br>
 A second reply will be sent with the Song Genenrated from the Cast.
 
 WIP.
