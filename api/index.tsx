@@ -9,7 +9,7 @@ import fetch from "node-fetch";
 config();
 
 const ADD_URL =
-  "https://warpcast.com/~/add-cast-action?actionType=post&name=CastVivaldi&icon=sun&postUrl=https%3A%2F%2Fcastvivaldi.xyz%2Fapi%2Fgm";
+  "https://warpcast.com/~/add-cast-action?actionType=post&name=CastVivaldi&icon=play&postUrl=https%3A%2F%2Fcastvivaldi.xyz%2Fapi%2Fgenerate";
 
 const ACCOUNT_PRIVATE_KEY: string = process.env.ACCOUNT_PRIVATE_KEY; // Your account key's private key
 const FID = 191554; // Your fid
@@ -69,7 +69,7 @@ app.hono.post("/action", async (c) => {
       {
         text: "Here's your Ecco!",
         embeds: [
-          { url: "https://suno.com/song/3b3ebc12-fc09-4d69-ac21-efd13423e534" },
+          { url: "https://suno.com/song/3b3ebc12-fc09-4d69-ac21-efd13423e534" }, //test
         ], // add audio URL here
         embedsDeprecated: [],
         mentions: [interactorFid],
