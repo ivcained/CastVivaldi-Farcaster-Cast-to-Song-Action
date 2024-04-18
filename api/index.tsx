@@ -1,26 +1,15 @@
-import {
-  Frog,
-  Button,
-  getFarcasterUserDetails,
-  validateFramesMessage,
-} from "@airstack/frog";
-import {
-  hexStringToBytes,
-  getSSLHubRpcClient,
-  Metadata,
-  makeCastAdd,
-} from "@farcaster/hub-nodejs";
+import { Frog, validateFramesMessage } from "@airstack/frog";
+import { hexStringToBytes, Metadata, makeCastAdd } from "@farcaster/hub-nodejs";
 import { devtools } from "@airstack/frog/dev";
 import { serveStatic } from "@airstack/frog/serve-static";
 import { handle } from "@airstack/frog/vercel";
-import { gm } from "../lib/gm.js";
 import { config } from "dotenv";
 import fetch from "node-fetch";
 
 config();
 
 const ADD_URL =
-  "https://warpcast.com/~/add-cast-action?actionType=post&name=GM&icon=sun&postUrl=https%3A%2F%2Fgm-fc.vercel.app%2Fapi%2Fgm";
+  "https://warpcast.com/~/add-cast-action?actionType=post&name=CastVivaldi&icon=sun&postUrl=https%3A%2F%2Fcastvivaldi.xyz%2Fapi%2Fgm";
 
 const ACCOUNT_PRIVATE_KEY: string = process.env.ACCOUNT_PRIVATE_KEY; // Your account key's private key
 const FID = 191554; // Your fid

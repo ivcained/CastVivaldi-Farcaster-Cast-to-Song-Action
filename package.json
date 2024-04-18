@@ -10,9 +10,11 @@
   },
   "dependencies": {
     "@airstack/frog": "^0.0.8",
+    "@farcaster/hub-nodejs": "^0.11.9",
     "@vercel/kv": "^1.0.1",
     "dotenv": "^16.4.5",
-    "hono": "^4"
+    "hono": "^4",
+    "node-fetch": "^3.3.2"
   },
   "author": {
     "name": "Yoseph Kurnia Soenggoro",
