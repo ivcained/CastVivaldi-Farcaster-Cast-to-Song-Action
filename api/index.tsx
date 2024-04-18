@@ -12,7 +12,7 @@ const ADD_URL =
   "https://warpcast.com/~/add-cast-action?actionType=post&name=CastVivaldi&icon=play&postUrl=https%3A%2F%2Fcastvivaldi.xyz%2Fapi%2Fgenerate";
 
 const ACCOUNT_PRIVATE_KEY: string = process.env.ACCOUNT_PRIVATE_KEY; // Your account key's private key
-const FID = 191554; // Your fid
+const FID = 490410; // Your fid
 const ed25519Signer = new NobleEd25519Signer(ACCOUNT_PRIVATE_KEY);
 const dataOptions = {
   fid: FID,
@@ -47,10 +47,10 @@ app.hono.post("/action", async (c) => {
     });
     const musicData = await response.json(); // get the response data
 
-    // create the cast reply under the thread
+    // create the cast informing initiation reply under the thread
     const castReplyResult = await makeCastAdd(
       {
-        text: "Generating Song from Cast",
+        text: "Generating Song from Cast, go get a cuppa",
         embeds: [{ url: musicData.url }], // add music URL here
         embedsDeprecated: [],
         mentions: [interactorFid],
@@ -67,13 +67,13 @@ app.hono.post("/action", async (c) => {
     // create the cast reply under the thread
     const castReplyResult = await makeCastAdd(
       {
-        text: "Here's your Ecco!",
+        text: "Here's your Song!   ",
         embeds: [
           { url: "https://suno.com/song/3b3ebc12-fc09-4d69-ac21-efd13423e534" }, //test
         ], // add audio URL here
         embedsDeprecated: [],
-        mentions: [interactorFid],
-        mentionsPositions: [], // need to add FID mentions position
+        mentions: [interactorFid], // need to add FID mentions position
+        mentionsPositions: [19], // need to add FID mentions position
         parentCastId: {
           fid: castFid?.id,
           hash,
