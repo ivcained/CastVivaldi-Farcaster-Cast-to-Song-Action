@@ -6,7 +6,7 @@ Tap the Vivaldi Cast Action button on any cast.
 [@castvivaldi](https://warpcast.com/castvivaldi) will reply with the estimate time for generation.<br>
 A second reply will be sent with the Song Genenrated from the Cast.
 
-WIP.
+Noete: This is a WIP and features are being added frequently.
 
 HUGE Thanks to the most authentic, patient, Genius (Over 9000) @YosephKS for your Mentorship. I will write more later as I'm working on getting this ready soon.
 
