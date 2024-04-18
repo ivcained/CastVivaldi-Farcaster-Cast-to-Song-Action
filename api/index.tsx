@@ -9,7 +9,7 @@ import fetch from "node-fetch";
 config();
 
 const ADD_URL =
-  "https://warpcast.com/~/add-cast-action?actionType=post&name=CastVivaldi&icon=play&postUrl=https%3A%2F%2Fcastvivaldi.xyz%2Fapi%2Fgenerate";
+  "https://warpcast.com/~/add-cast-action?actionType=post&name=CastVivaldi&icon=play&postUrl=https%3A%2F%2F#.xyz%2Fapi%2F";
 
 const ACCOUNT_PRIVATE_KEY: string = process.env.ACCOUNT_PRIVATE_KEY; // Your account key's private key
 const FID = 490410; // Your fid
