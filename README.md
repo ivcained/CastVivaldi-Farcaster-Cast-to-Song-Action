@@ -1,5 +1,11 @@
 # 🐬 CastVivaldi - Turn Any Cast Into a Song with this Cast Action | Bot
 
+## How to Turn Any Cast into a Song:
+
+Tap the Vivaldi Cast Action button on any cast.
+[@castvivaldi](https://warpcast.com/castvivaldi) will reply with the estimate time for generation.
+A second reply will be sent with the Song Genenrated from the Cast.
+
 WIP.
 
 HUGE Thanks to the most authentic, patient, Genius (Over 9000) @YosephKS for your Mentorship. I will write more later as I'm working on getting this ready soon.
