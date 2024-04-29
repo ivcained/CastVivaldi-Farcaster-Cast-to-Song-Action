@@ -9,7 +9,7 @@ import fetch from "node-fetch";
 config();
 
 const ADD_URL =
-  "https://warpcast.com/~/add-cast-action?actionType=post&name=CastVivaldi&icon=play&postUrl=https%3A%2F%2Fcastvivaldi.xyz%2Fapi%2F";
+  "https://warpcast.com/~/add-cast-action?actionType=post&name=CastVivaldi&icon=unmute&postUrl=https%3A%2F%2Fcastvivaldi.xyz%2Fapi%2F";
 
 const ACCOUNT_PRIVATE_KEY: string = process.env.ACCOUNT_PRIVATE_KEY; // Your account key's private key
 const FID = 490410; // Your fid
@@ -50,7 +50,7 @@ app.hono.post("/action", async (c) => {
     // create the cast informing initiation reply under the thread
     const castReplyResult = await makeCastAdd(
       {
-        text: "Generating Song from Cast, go get a cuppa",
+        text: "Generating Song from Cast",
         embeds: [{ url: musicData.url }], // add music URL here
         embedsDeprecated: [],
         mentions: [interactorFid],
