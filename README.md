@@ -1,5 +1,12 @@
 # 🐬 CastVivaldi - Turn Any Cast Into a Song with this Cast Action | Bot
 
+
+Notes:
+
+https://www.npmjs.com/package/capture-website to capture screenshot of the cast, audio is stitched using ffmpeg (working on that)
+1
+
+
 https://github.com/ivcained/CastVivaldi-Farcaster-Cast-to-Song-Action/assets/86070833/c9ec9e61-f6b6-4cac-a4fe-b383a376abf9
 
 
