@@ -73,7 +73,7 @@ app.hono.post("/action", async (c) => {
       {
         text: "Here's your Song!   ",
         embeds: [
-          { url: "#song/3b3ebc12-fc09-4d69-ac21-efd13423e534" }, //test
+          { url: "audio_url" }, //test
         ], // add audio URL here
         embedsDeprecated: [],
         mentions: [interactorFid], // need to add FID mentions position
