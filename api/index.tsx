@@ -55,7 +55,7 @@ app.hono.post("/action", async (c) => {
     const castReplyResult = await makeCastAdd(
       {
         text: "Generating Song from Cast",
-        embeds: [{ url: musicData.url }], // add music URL here
+        embeds: [{ url: audio_url.url }], // add music URL here
         embedsDeprecated: [],
         mentions: [interactorFid],
         mentionsPositions: [], // need to add FID mentions position
