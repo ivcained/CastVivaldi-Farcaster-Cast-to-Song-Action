@@ -7,7 +7,6 @@ import { config } from "dotenv";
 import fetch from "node-fetch";
 
 config();
-
 const ADD_URL =
   "https://warpcast.com/~/add-cast-action?actionType=post&name=CastVivaldi&icon=unmute&postUrl=https%3A%2F%2Fcastvivaldi.xyz%2F";
 
@@ -37,16 +36,21 @@ app.hono.post("/action", async (c) => {
   const hash = hexStringToBytes(base64FromBytes(castFid?.hash as Uint8Array));
   if (isValid && castFid) {
     // generate music based on the text in the cast
-    const text = body.data.text; // Send the text in the cast
+    const text = body.data.text; // Send the text in the cast - Test here is killing me.
     const response = await fetch(process.env.AUDIO_GEN_API, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ prompt }), // send the text as the body of the request
+      body: JSON.stringify({
+        prompt: text,
+        tags: "rock, pop",
+        title: "Cast Vivaldi",
+        make_instrumental: false,
+        wait_audio: true,
+      }), // send the text as the body of the request
     });
     const musicData = await response.json(); // get the response data
-
     // create the cast informing initiation reply under the thread
     const castReplyResult = await makeCastAdd(
       {
