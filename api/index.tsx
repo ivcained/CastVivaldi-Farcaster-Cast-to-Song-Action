@@ -9,8 +9,8 @@ import fetch from "node-fetch";
 config();
 const ADD_URL =
   "https://warpcast.com/~/add-cast-action?actionType=post&name=CastVivaldi&icon=unmute&postUrl=https%3A%2F%2Fcastvivaldi.xyz%2F";
-
-const ACCOUNT_PRIVATE_KEY: string = process.env.ACCOUNT_PRIVATE_KEY; // Your account key's private key
+//const ACCOUNT_PRIVATE_KEY: string = process.env.ACCOUNT_PRIVATE_KEY; // Your account key's private key
+const ACCOUNT_PRIVATE_KEY = process.env.ACCOUNT_PRIVATE_KEY as string; // Account Priv Key
 const FID = 490410; // Your fid
 const ed25519Signer = new NobleEd25519Signer(ACCOUNT_PRIVATE_KEY);
 const dataOptions = {
@@ -24,6 +24,12 @@ export const app = new Frog({
   basePath: "/api",
   browserLocation: ADD_URL,
 });
+
+// function for base64
+
+function base64FromBytes(arr: Uint8Array) {
+  return Buffer.from(arr).toString("base64");
+}
 
 // Cast action handler
 app.hono.post("/action", async (c) => {

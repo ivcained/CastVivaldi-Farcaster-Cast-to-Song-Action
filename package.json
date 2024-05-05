@@ -11,6 +11,8 @@
   "dependencies": {
     "@airstack/frog": "^0.0.8",
     "@farcaster/hub-nodejs": "^0.11.9",
+    "@types/node": "^20.12.8",
+    "@types/node-fetch": "^2.6.11",
     "@vercel/kv": "^1.0.1",
     "dotenv": "^16.4.5",
     "hono": "^4",
