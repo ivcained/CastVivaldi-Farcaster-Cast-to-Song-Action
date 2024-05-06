@@ -5,13 +5,14 @@ import { serveStatic } from "@airstack/frog/serve-static";
 import { handle } from "@airstack/frog/vercel";
 import { config } from "dotenv";
 import fetch from "node-fetch";
+import { NobleEd25519Signer } from "@farcaster/hub-nodejs";
 
 config();
 const ADD_URL =
-  "https://warpcast.com/~/add-cast-action?actionType=post&name=CastVivaldi&icon=unmute&postUrl=https%3A%2F%2Fcastvivaldi.xyz%2F";
+  "https://warpcast.com/~/add-cast-action?actionType=post&name=CastVivaldi&icon=unmute&postUrl=https%3A%2F%2Fcastvivaldi.xyz%2Fapi%2F";
 //const ACCOUNT_PRIVATE_KEY: string = process.env.ACCOUNT_PRIVATE_KEY; // Your account key's private key
 const ACCOUNT_PRIVATE_KEY = process.env.ACCOUNT_PRIVATE_KEY as string; // Account Priv Key
-const FID = 490410; // Your fid
+const FID = 490410; // Account FID
 const ed25519Signer = new NobleEd25519Signer(ACCOUNT_PRIVATE_KEY);
 const dataOptions = {
   fid: FID,
@@ -43,7 +44,7 @@ app.hono.post("/action", async (c) => {
   if (isValid && castFid) {
     // generate music based on the text in the cast
     const text = body.data.text; // Send the text in the cast - Test here is killing me.
-    const response = await fetch(process.env.AUDIO_GEN_API, {
+    const response = await fetch(process.env.AUDIO_GEN_API as string, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
