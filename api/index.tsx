@@ -45,7 +45,7 @@ app.hono.post("/action", async (c) => {
   // validate the cast action
   const { isValid, message } = await validateFramesMessage(body);
   const interactorFid = message?.data?.fid;
-  const castFid = message?.data.frameActionBody.castId?.id;
+  const castFid = message?.data.frameActionBody.castId?.fid;
   // get cast hash
   const hash = hexStringToBytes(base64FromBytes(castFid?.hash as Uint8Array));
   if (isValid && castFid) {
