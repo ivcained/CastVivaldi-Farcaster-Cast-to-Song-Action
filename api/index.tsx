@@ -1,11 +1,16 @@
 import { Frog, validateFramesMessage } from "@airstack/frog";
-import { hexStringToBytes, Metadata, makeCastAdd } from "@farcaster/hub-nodejs";
+import {
+  NobleEd25519Signer,
+  hexStringToBytes,
+  Metadata,
+  makeCastAdd,
+  FarcasterNetwork,
+} from "@farcaster/hub-nodejs";
 import { devtools } from "@airstack/frog/dev";
 import { serveStatic } from "@airstack/frog/serve-static";
 import { handle } from "@airstack/frog/vercel";
 import { config } from "dotenv";
 import fetch from "node-fetch";
-import { NobleEd25519Signer } from "@farcaster/hub-nodejs";
 
 config();
 const ADD_URL =
@@ -13,12 +18,15 @@ const ADD_URL =
 //const ACCOUNT_PRIVATE_KEY: string = process.env.ACCOUNT_PRIVATE_KEY; // Your account key's private key
 const ACCOUNT_PRIVATE_KEY = process.env.ACCOUNT_PRIVATE_KEY as string; // Account Priv Key
 const FID = 490410; // Account FID
-const ed25519Signer = new NobleEd25519Signer(ACCOUNT_PRIVATE_KEY);
+let uint8ArrayPrivateKey = new Uint8Array(
+  Buffer.from(ACCOUNT_PRIVATE_KEY, "hex")
+);
+const ed25519Signer = new NobleEd25519Signer(uint8ArrayPrivateKey);
+const FC_NETWORK = FarcasterNetwork.MAINNET;
 const dataOptions = {
   fid: FID,
   network: FC_NETWORK,
 };
-const FC_NETWORK = FarcasterNetwork.MAINNET;
 
 export const app = new Frog({
   apiKey: process.env.AIRSTACK_API_KEY as string,
@@ -27,7 +35,6 @@ export const app = new Frog({
 });
 
 // function for base64
-
 function base64FromBytes(arr: Uint8Array) {
   return Buffer.from(arr).toString("base64");
 }
@@ -55,7 +62,7 @@ app.hono.post("/action", async (c) => {
         title: "Cast Vivaldi",
         make_instrumental: false,
         wait_audio: true,
-      }), // send the text as the body of the request
+      }), // sent the text as the body of the request
     });
     const musicData = await response.json(); // get the response data
     // create the cast informing initiation reply under the thread
