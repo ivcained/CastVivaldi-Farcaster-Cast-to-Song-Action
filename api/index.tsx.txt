@@ -46,11 +46,10 @@ app.hono.post("/action", async (c) => {
   const { isValid, message } = await validateFramesMessage(body);
   const interactorFid = message?.data?.fid;
   const castFid = message?.data.frameActionBody.castId?.fid;
-  // Get cast hash
-  //const hash = hexStringToBytes(base64FromBytes(castFid?.hash as Uint8Array));
-  const hash = hexStringToBytes(
-    base64FromBytes(message?.data.frameActionBody.castId?.hash as Uint8Array)
-  );
+  const castHash = message?.data.frameActionBody.castId?.hash;
+  // get cast hash
+  const hash = hexStringToBytes(base64FromBytes(castHash as Uint8Array));
+  // const hash = hexStringToBytes(base64FromBytes(castFid?.hash as Uint8Array));
   if (isValid && castFid) {
     // generate music based on the text in the cast
     const text = body.data.text; // Send the text in the cast - Test here is killing me.
@@ -72,9 +71,9 @@ app.hono.post("/action", async (c) => {
     const castReplyResult = await makeCastAdd(
       {
         text: "Generating Song from Cast",
-        embeds: [{ url: musicData.audio_url.url }], // add music URL here
+        embeds: [{ url: audio_url.url }], // add music URL here
         embedsDeprecated: [],
-        mentions: [490410],
+        mentions: [interactorFid],
         mentionsPositions: [], // need to add FID mentions position
         parentCastId: {
           fid: castFid?.id,
@@ -86,7 +85,7 @@ app.hono.post("/action", async (c) => {
     );
 
     // create the cast reply under the thread
-    await makeCastAdd(
+    const castReplyResult = await makeCastAdd(
       {
         text: "Here's your Song!   ",
         embeds: [
