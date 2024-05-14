@@ -5,12 +5,30 @@ import {
   Metadata,
   makeCastAdd,
   FarcasterNetwork,
+  CastId,
 } from "@farcaster/hub-nodejs";
 import { devtools } from "@airstack/frog/dev";
 import { serveStatic } from "@airstack/frog/serve-static";
 import { handle } from "@airstack/frog/vercel";
 import { config } from "dotenv";
 import fetch from "node-fetch";
+
+// Audio Gen interface definitions
+interface musicData {
+  id: string;
+  title: string;
+  image_url: string;
+  lyric: string;
+  audio_url: string;
+  video_url: string;
+  created_at: string;
+  model_name: string;
+  status: string;
+  gpt_description_prompt: string;
+  prompt: string;
+  type: string;
+  tags: string;
+}
 
 config();
 const ADD_URL =
@@ -46,6 +64,10 @@ app.hono.post("/action", async (c) => {
   const { isValid, message } = await validateFramesMessage(body);
   const interactorFid = message?.data?.fid;
   const castFid = message?.data.frameActionBody.castId?.fid;
+  //const castId = message?.data.frameActionBody.castId;
+  //const fid = castId?.fid;
+  //const id = castId?.id;
+
   // Get cast hash
   //const hash = hexStringToBytes(base64FromBytes(castFid?.hash as Uint8Array));
   const hash = hexStringToBytes(
@@ -67,16 +89,20 @@ app.hono.post("/action", async (c) => {
         wait_audio: true,
       }), // sent the text as the body of the request
     });
-    const musicData = await response.json(); // get the response data
+    const musicDataArray = (await response.json()) as musicData[];
+    const musicData = musicDataArray[0];
+
+    //const musicData = await response.json(); // get the response data
     // create the cast informing initiation reply under the thread
     const castReplyResult = await makeCastAdd(
       {
         text: "Generating Song from Cast",
-        embeds: [{ url: musicData.audio_url.url }], // add music URL here
+        embeds: [{ url: musicData.audio_url }], // add music URL here
         embedsDeprecated: [],
         mentions: [490410],
         mentionsPositions: [], // need to add FID mentions position
         parentCastId: {
+          //fid: id,
           fid: castFid?.id,
           hash,
         },
@@ -90,8 +116,8 @@ app.hono.post("/action", async (c) => {
       {
         text: "Here's your Song!   ",
         embeds: [
-          { url: "audio_url" }, //test
-        ], // add audio URL here
+          { url: "audio_url" }, // audio URL here
+        ],
         embedsDeprecated: [],
         mentions: [interactorFid], // need to add FID mentions position
         mentionsPositions: [19], // need to add FID mentions position
