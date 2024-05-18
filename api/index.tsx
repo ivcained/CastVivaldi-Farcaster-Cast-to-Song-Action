@@ -96,10 +96,10 @@ app.hono.post("/action", async (c) => {
     // create the cast informing initiation reply under the thread
     const castReplyResult = await makeCastAdd(
       {
-        text: "Generating Song from Cast",
+        text: "Generating Song",
         embeds: [{ url: musicData.audio_url }], // add music URL here
         embedsDeprecated: [],
-        mentions: [490410],
+        mentions: [191554],
         mentionsPositions: [], // need to add FID mentions position
         parentCastId: {
           fid: castFid,
