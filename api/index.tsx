@@ -5,8 +5,7 @@ import {
   Metadata,
   makeCastAdd,
   FarcasterNetwork,
-  CastId,
-  Client,
+  getSSLHubRpcClient,
 } from "@farcaster/hub-nodejs";
 import { devtools } from "@airstack/frog/dev";
 import { serveStatic } from "@airstack/frog/serve-static";
@@ -129,7 +128,11 @@ app.hono.post("/action", async (c) => {
       dataOptions,
       ed25519Signer
     );
-    Client.$.waitForReady(Date.now() + 5000, async (e) => {
+    // Create a client instance
+
+    const client = getSSLHubRpcClient("hubs-grpc.airstack.xyz");
+
+    client.$.waitForReady(Date.now() + 5000, async (e) => {
       if (e) {
         console.error(`Failed to connect to the gRPC server:`, e);
         process.exit(1);
@@ -154,13 +157,13 @@ app.hono.post("/action", async (c) => {
           console.error(`Error posting reply: ${error}`);
         }
         // After everything, close the RPC connection
-        Client.close();
+        client.close();
       }
     });
     // This will be the message appearing in the cast action toast, customizable
-    return c.json({ message: "Success" });
+    return c.json({ message: "Yay, Success" });
   } else {
-    return c.json({ message: "Unauthorized" }, 401);
+    return c.json({ message: "Uh Oh .. Unauthorized" }, 401);
   }
 });
 
