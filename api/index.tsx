@@ -6,6 +6,7 @@ import {
   makeCastAdd,
   FarcasterNetwork,
   CastId,
+  Client,
 } from "@farcaster/hub-nodejs";
 import { devtools } from "@airstack/frog/dev";
 import { serveStatic } from "@airstack/frog/serve-static";
@@ -60,6 +61,7 @@ function base64FromBytes(arr: Uint8Array) {
 // Cast action handler
 app.hono.post("/action", async (c) => {
   const body = await c.req.json();
+
   // validate the cast action
   const { isValid, message } = await validateFramesMessage(body);
   const interactorFid = message?.data?.fid;
@@ -67,12 +69,11 @@ app.hono.post("/action", async (c) => {
   //const castId = message?.data.frameActionBody.castId;
   //const fid = castId?.fid;
   //const id = castId?.id;
-
   // Get cast hash
   //const hash = hexStringToBytes(base64FromBytes(castFid?.hash as Uint8Array));
   const hash = hexStringToBytes(
     base64FromBytes(message?.data.frameActionBody.castId?.hash as Uint8Array)
-  );
+  )._unsafeUnwrap();
   if (isValid && castFid) {
     // generate music based on the text in the cast
     const text = body.data.text; // Send the text in the cast - Test here is killing me.
@@ -102,9 +103,8 @@ app.hono.post("/action", async (c) => {
         mentions: [490410],
         mentionsPositions: [], // need to add FID mentions position
         parentCastId: {
-          //fid: id,
-          fid: castFid?.id,
-          hash,
+          fid: castFid,
+          hash: hash, // hash
         },
       },
       dataOptions,
@@ -119,17 +119,17 @@ app.hono.post("/action", async (c) => {
           { url: "audio_url" }, // audio URL here
         ],
         embedsDeprecated: [],
-        mentions: [interactorFid], // need to add FID mentions position
+        mentions: [191554], // need to add FID mentions position
         mentionsPositions: [19], // need to add FID mentions position
         parentCastId: {
-          fid: castFid?.id,
+          fid: castFid,
           hash,
         },
       },
       dataOptions,
       ed25519Signer
     );
-    client.$.waitForReady(Date.now() + 5000, async (e) => {
+    Client.$.waitForReady(Date.now() + 5000, async (e) => {
       if (e) {
         console.error(`Failed to connect to the gRPC server:`, e);
         process.exit(1);
@@ -154,7 +154,7 @@ app.hono.post("/action", async (c) => {
           console.error(`Error posting reply: ${error}`);
         }
         // After everything, close the RPC connection
-        client.close();
+        Client.close();
       }
     });
     // This will be the message appearing in the cast action toast, customizable
