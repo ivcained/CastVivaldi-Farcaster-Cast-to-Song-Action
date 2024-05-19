@@ -11,13 +11,13 @@ import { devtools } from "@airstack/frog/dev";
 import { serveStatic } from "@airstack/frog/serve-static";
 import { handle } from "@airstack/frog/vercel";
 import { config } from "dotenv";
-import fetch from "node-fetch";
+//import fetch from "node-fetch";
 
 // Audio Gen interface definitions
 interface musicData {
   id: string;
   title: string;
-  image_url: string;
+  //image_url: string;
   lyric: string;
   audio_url: string;
   video_url: string;
@@ -58,7 +58,7 @@ function base64FromBytes(arr: Uint8Array) {
 }
 
 // Cast action handler
-app.hono.post("/action", async (c) => {
+app.hono.post("/", async (c) => {
   const body = await c.req.json();
 
   // validate the cast action
@@ -96,7 +96,7 @@ app.hono.post("/action", async (c) => {
     // create the cast informing initiation reply under the thread
     const castReplyResult = await makeCastAdd(
       {
-        text: "Generating Song",
+        text: "Generating Song...",
         embeds: [{ url: musicData.audio_url }], // add music URL here
         embedsDeprecated: [],
         mentions: [191554],
