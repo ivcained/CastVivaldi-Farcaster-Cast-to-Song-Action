@@ -20,7 +20,7 @@ interface musicData {
   //image_url: string;
   lyric: string;
   audio_url: string;
-  video_url: string;
+  //video_url: string;
   created_at: string;
   model_name: string;
   status: string;
@@ -58,7 +58,7 @@ function base64FromBytes(arr: Uint8Array) {
 }
 
 // Cast action handler
-app.hono.post("/", async (c) => {
+app.hono.post("/api", async (c) => {
   const body = await c.req.json();
 
   // validate the cast action
@@ -130,7 +130,7 @@ app.hono.post("/", async (c) => {
     );
     // Create a client instance
 
-    const client = getSSLHubRpcClient("hubs-grpc.airstack.xyz");
+    const client = getSSLHubRpcClient("https://hubs-grpc.airstack.xyz");
 
     client.$.waitForReady(Date.now() + 5000, async (e) => {
       if (e) {
