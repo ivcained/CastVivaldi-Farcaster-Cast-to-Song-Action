@@ -7,7 +7,7 @@ import {
   FarcasterNetwork,
   getSSLHubRpcClient,
 } from "@farcaster/hub-nodejs";
-import { devtools } from "@airstack/frog/dev";
+//import { devtools } from "@airstack/frog/dev";
 import { serveStatic } from "@airstack/frog/serve-static";
 import { handle } from "@airstack/frog/vercel";
 import { config } from "dotenv";
@@ -167,7 +167,7 @@ app.hono.post("/api", async (c) => {
   }
 });
 
-devtools(app, { serveStatic });
+//devtools(app, { serveStatic });
 
 export const GET = handle(app);
 export const POST = handle(app);
