@@ -70,9 +70,14 @@ app.hono.post("/api", async (c) => {
   //const id = castId?.id;
   // Get cast hash
   //const hash = hexStringToBytes(base64FromBytes(castFid?.hash as Uint8Array));
+  //const hash = hexStringToBytes(
+  // base64FromBytes(message?.data.frameActionBody.castId?.hash as Uint8Array)
+  // )._unsafeUnwrap();
+
   const hash = hexStringToBytes(
-    base64FromBytes(message?.data.frameActionBody.castId?.hash as Uint8Array)
-  )._unsafeUnwrap();
+    (castFid as { hash?: string }).hash || ""
+  )._unsafeUnwrap(); //codequen q8 0 7B Q8_0 gguf thank you
+
   if (isValid && castFid) {
     // generate music based on the text in the cast
     const text = body.data.text; // Send the text in the cast - Test here is killing me.
