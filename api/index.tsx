@@ -8,9 +8,10 @@ import {
   getSSLHubRpcClient,
 } from "@farcaster/hub-nodejs";
 //import { devtools } from "@airstack/frog/dev";
-import { serveStatic } from "@airstack/frog/serve-static";
+//import { serveStatic } from "@airstack/frog/serve-static";
 import { handle } from "@airstack/frog/vercel";
 import { config } from "dotenv";
+import { Buffer } from "buffer";
 //import fetch from "node-fetch";
 
 // Audio Gen interface definitions
@@ -57,6 +58,11 @@ function base64FromBytes(arr: Uint8Array) {
   return Buffer.from(arr).toString("base64");
 }
 
+// function 2 for base64
+//function base64ToBytes(base64: string) {
+//return Buffer.from(base64, "base64");
+//}
+
 // Cast action handler
 app.hono.post("/api", async (c) => {
   const body = await c.req.json();
@@ -70,13 +76,18 @@ app.hono.post("/api", async (c) => {
   //const id = castId?.id;
   // Get cast hash
   //const hash = hexStringToBytes(base64FromBytes(castFid?.hash as Uint8Array));
-  //const hash = hexStringToBytes(
-  // base64FromBytes(message?.data.frameActionBody.castId?.hash as Uint8Array)
-  // )._unsafeUnwrap();
-
   const hash = hexStringToBytes(
-    (castFid as { hash?: string }).hash || ""
-  )._unsafeUnwrap(); //codequen q8 0 7B Q8_0 gguf thank you
+    base64FromBytes(message?.data.frameActionBody.castId?.hash as Uint8Array)
+  )._unsafeUnwrap();
+
+  // Assuming message?.data.frameActionBody.castId?.hash could be a string or undefined
+  //const hash = message?.data.frameActionBody.castId?.hash;
+
+  //const hash = base64ToBytes(message?.data.frameActionBody.castId?.hash);
+
+  //const hash = hexStringToBytes(
+  // (castFid as { hash?: string }).hash || ""
+  //)._unsafeUnwrap(); //codequen q8 0 7B Q8_0 gguf wrong
 
   if (isValid && castFid) {
     // generate music based on the text in the cast
