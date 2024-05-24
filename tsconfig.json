@@ -3,7 +3,6 @@
     "target": "ESNext",
     "module": "NodeNext",
     "skipLibCheck": true,
-
     "moduleResolution": "NodeNext",
     "resolveJsonModule": true,
     "isolatedModules": true,
@@ -18,5 +17,6 @@
 
     "types": ["frog/client", "node-fetch", "node"]
   },
-  "include": ["**/*.ts", "**/*.tsx", "**/*.mtsx"]
+  "include": ["**/*.ts", "**/*.tsx", "**/*.mtsx"],
+  "exclude": ["node_modules"]
 }
