@@ -77,29 +77,10 @@ app.hono.post("/api", async (c) => {
   //const id = castId?.id;
   // Get cast hash
   //const hash = hexStringToBytes(base64FromBytes(castFid?.hash as Uint8Array));
-  //latest below
-  /*const hash = hexStringToBytes(
+
+  const hash = hexStringToBytes(
     base64FromBytes(message?.data.frameActionBody.castId?.hash as Uint8Array)
-  )._unsafeUnwrap();*/
-
-  const hash = base64FromBytes(
-    message?.data.frameActionBody.castId?.hash as Uint8Array
-  );
-
-  const bytesResult = hexStringToBytes(hash);
-
-  bytesResult.match(
-    (bytes) => {
-      // Handle the Ok case
-      console.log(bytes);
-      // Continue with your logic using the bytes
-    },
-    (error) => {
-      // Handle the Err case
-      console.error(`Error converting hex string to bytes: ${error}`);
-      // Handle the error appropriately, such as by returning an error response
-    }
-  );
+  )._unsafeUnwrap();
 
   // Assuming message?.data.frameActionBody.castId?.hash could be a string or undefined
   //const hash = message?.data.frameActionBody.castId?.hash;
