@@ -96,7 +96,9 @@ app.hono.post("/api", async (c) => {
 
   if (isValid && castFid) {
     // generate music based on the text in the cast
-    const text = body.data.text; // Send the text in the cast - Test here is killing me.
+    const text =
+      body.data?.text ||
+      "Vivaldi is onchain Decentralized network called Farcaster "; // Send the text in the cast - Test here is killing me.
     const response = await fetch(process.env.AUDIO_GEN_API as string, {
       method: "POST",
       headers: {
