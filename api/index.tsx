@@ -1,7 +1,7 @@
 import { Frog, validateFramesMessage } from "@airstack/frog";
 import {
   NobleEd25519Signer,
-  hexStringToBytes,
+  //hexStringToBytes,
   Metadata,
   makeCastAdd,
   FarcasterNetwork,
@@ -60,10 +60,10 @@ function base64FromBytes(arr: Uint8Array) {
   return Buffer.from(arr).toString("base64");
 }*/
 
-// function 2 for base64
+/* function 2 for base64
 function base64FromBytes(arr: Uint8Array): string {
   return Buffer.from(arr).toString("base64");
-}
+}*/
 
 // Cast action handler
 app.hono.post("/api", async (c) => {
@@ -103,7 +103,7 @@ app.hono.post("/api", async (c) => {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        prompt: text,
+        prompt: text || "", // Use an empty string as the default value if 'text' is undefined
         tags: "rock, pop",
         title: "Cast Vivaldi",
         make_instrumental: false,
