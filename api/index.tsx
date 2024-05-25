@@ -54,15 +54,16 @@ export const app = new Frog({
   browserLocation: ADD_URL,
 });
 
+/*
 // function for base64
 function base64FromBytes(arr: Uint8Array) {
   return Buffer.from(arr).toString("base64");
-}
+}*/
 
 // function 2 for base64
-//function base64ToBytes(base64: string) {
-//return Buffer.from(base64, "base64");
-//}
+function base64FromBytes(arr: Uint8Array): string {
+  return Buffer.from(arr).toString("base64");
+}
 
 // Cast action handler
 app.hono.post("/api", async (c) => {
