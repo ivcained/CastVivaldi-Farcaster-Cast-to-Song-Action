@@ -68,37 +68,18 @@ function base64FromBytes(arr: Uint8Array): string {
 // Cast action handler
 app.hono.post("/api", async (c) => {
   const body = await c.req.json();
-
   // validate the cast action
   const { isValid, message } = await validateFramesMessage(body);
   const interactorFid = message?.data?.fid;
   const castFid = message?.data.frameActionBody.castId?.fid;
-  //const castId = message?.data.frameActionBody.castId;
-  //const fid = castId?.fid;
-  //const id = castId?.id;
-  // Get cast hash
-  //const hash = hexStringToBytes(base64FromBytes(castFid?.hash as Uint8Array));
 
-  /*const hash = hexStringToBytes(
-    base64FromBytes(message?.data.frameActionBody.castId?.hash as Uint8Array)
-  )._unsafeUnwrap();*/
-
-  const hash = message?.data.frameActionBody.castId?.hash as Uint8Array;
-
-  // Assuming message?.data.frameActionBody.castId?.hash could be a string or undefined
-  //const hash = message?.data.frameActionBody.castId?.hash;
-
-  //const hash = base64ToBytes(message?.data.frameActionBody.castId?.hash);
-
-  //const hash = hexStringToBytes(
-  // (castFid as { hash?: string }).hash || ""
-  //)._unsafeUnwrap(); //codequen q8 0 7B Q8_0 gguf wrong
+  const hash = message?.data.frameActionBody.castId?.hash; // as unit8array
 
   if (isValid && castFid) {
     // generate music based on the text in the cast
     const text =
       body.data?.text ||
-      "Vivaldi is onchain Decentralized network called Farcaster "; // Send the text in the cast - Test here is killing me.
+      "Vivaldi is onchain Decentralized network called Farcaster"; // Send the text in the cast - Test here is killing me.
     const response = await fetch(process.env.AUDIO_GEN_API as string, {
       method: "POST",
       headers: {
@@ -112,17 +93,20 @@ app.hono.post("/api", async (c) => {
         wait_audio: true,
       }), // sent the text as the body of the request
     });
+
+    //Parse the JSON PROD
     const musicDataArray = (await response.json()) as musicData[];
     const musicData = musicDataArray[0];
 
-    //const musicData = await response.json(); // get the response data
-    // create the cast informing initiation reply under the thread
+    //const musicData = await response.json(); // get the response data na
+    // create the cast informing initiation reply under the thread na
+
     const castReplyResult = await makeCastAdd(
       {
         text: "Generating Song...",
-        embeds: [{ url: musicData.audio_url }], // add music URL here
+        embeds: [], //[{ url: musicData.audio_url }], // add music URL here
         embedsDeprecated: [],
-        mentions: [191554],
+        mentions: [],
         mentionsPositions: [], // need to add FID mentions position
         parentCastId: {
           fid: castFid,
@@ -141,19 +125,19 @@ app.hono.post("/api", async (c) => {
           { url: "audio_url" }, // audio URL here
         ],
         embedsDeprecated: [],
-        mentions: [191554], // need to add FID mentions position
-        mentionsPositions: [19], // need to add FID mentions position
-        parentCastId: {
-          fid: castFid,
-          hash,
-        },
+        mentions: [], // need to add FID mentions position
+        mentionsPositions: [], // need to add FID mentions position
+        //parentCastId: {
+        //fid: castFid,
+        // hash,
+        // },
       },
       dataOptions,
       ed25519Signer
     );
     // Create a client instance
 
-    const client = getSSLHubRpcClient("https://hubs-grpc.airstack.xyz");
+    const client = getSSLHubRpcClient("hubs-grpc.airstack.xyz");
 
     client.$.waitForReady(Date.now() + 5000, async (e) => {
       if (e) {
