@@ -7,12 +7,12 @@ import {
   FarcasterNetwork,
   getSSLHubRpcClient,
 } from "@farcaster/hub-nodejs";
-//import { devtools } from "@airstack/frog/dev";
+//import { devtools } from "@airstack/frog/dev";x
 //import { serveStatic } from "@airstack/frog/serve-static";
 import { handle } from "@airstack/frog/vercel";
 import { config } from "dotenv";
 import { Buffer } from "buffer";
-
+//import { hexStringToBytes } from "@farcaster/core";
 //import fetch from "node-fetch";
 
 // Audio Gen interface definitions
@@ -79,9 +79,11 @@ app.hono.post("/api", async (c) => {
   // Get cast hash
   //const hash = hexStringToBytes(base64FromBytes(castFid?.hash as Uint8Array));
 
-  const hash = hexStringToBytes(
+  /*const hash = hexStringToBytes(
     base64FromBytes(message?.data.frameActionBody.castId?.hash as Uint8Array)
-  )._unsafeUnwrap();
+  )._unsafeUnwrap();*/
+
+  const hash = message?.data.frameActionBody.castId?.hash as Uint8Array;
 
   // Assuming message?.data.frameActionBody.castId?.hash could be a string or undefined
   //const hash = message?.data.frameActionBody.castId?.hash;
