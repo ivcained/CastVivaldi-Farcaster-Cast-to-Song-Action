@@ -1,17 +1,21 @@
 import { Frog, validateFramesMessage } from "@airstack/frog";
 import {
   NobleEd25519Signer,
-  //hexStringToBytes,
+  hexStringToBytes,
   Metadata,
   makeCastAdd,
   FarcasterNetwork,
   getSSLHubRpcClient,
+  CastId,
+  HashScheme,
+  hashSchemeToJSON,
 } from "@farcaster/hub-nodejs";
 //import { devtools } from "@airstack/frog/dev";x
 //import { serveStatic } from "@airstack/frog/serve-static";
 import { handle } from "@airstack/frog/vercel";
 import { config } from "dotenv";
 import { Buffer } from "buffer";
+import { Hash } from "crypto";
 //import { hexStringToBytes } from "@farcaster/core";
 //import fetch from "node-fetch";
 
@@ -72,8 +76,7 @@ app.hono.post("/api", async (c) => {
   const { isValid, message } = await validateFramesMessage(body);
   const interactorFid = message?.data?.fid;
   const castFid = message?.data.frameActionBody.castId?.fid;
-
-  const hash = message?.data.frameActionBody.castId?.hash; // as unit8array
+  const hash = message?.data.frameActionBody.castId?.hash;
 
   if (isValid && castFid) {
     // generate music based on the text in the cast
