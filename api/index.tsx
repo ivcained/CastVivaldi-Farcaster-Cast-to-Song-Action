@@ -10,14 +10,12 @@ import {
   HashScheme,
   hashSchemeToJSON,
 } from "@farcaster/hub-nodejs";
-//import { devtools } from "@airstack/frog/dev";x
-//import { serveStatic } from "@airstack/frog/serve-static";
+import { devtools } from "@airstack/frog/dev";
+import { serveStatic } from "@airstack/frog/serve-static";
 import { handle } from "@airstack/frog/vercel";
 import { config } from "dotenv";
 import { Buffer } from "buffer";
-import { Hash } from "crypto";
 //import { hexStringToBytes } from "@farcaster/core";
-//import fetch from "node-fetch";
 
 // Audio Gen interface definitions
 interface musicData {
@@ -38,7 +36,7 @@ interface musicData {
 
 config();
 const ADD_URL =
-  "https://warpcast.com/~/add-cast-action?actionType=post&name=CastVivaldi&icon=unmute&postUrl=https%3A%2F%2Fcastvivaldi.xyz%2Fapi%2F";
+  "https://warpcast.com/~/add-cast-action?actionType=post&name=CastVivaldi&icon=unmute&postUrl=https%3A%2F%2Fcastvivaldi.xyz%2Fapi%2Fapi%2F";
 //const ACCOUNT_PRIVATE_KEY: string = process.env.ACCOUNT_PRIVATE_KEY; // Your account key's private key
 const ACCOUNT_PRIVATE_KEY = process.env.ACCOUNT_PRIVATE_KEY as string; // Account Priv Key
 const FID = 490410; // Account FID
@@ -62,9 +60,9 @@ export const app = new Frog({
 // function for base64
 function base64FromBytes(arr: Uint8Array) {
   return Buffer.from(arr).toString("base64");
-}*/
+}
 
-/* function 2 for base64
+/*function 2 for base64
 function base64FromBytes(arr: Uint8Array): string {
   return Buffer.from(arr).toString("base64");
 }*/
@@ -77,11 +75,12 @@ app.hono.post("/api", async (c) => {
   const interactorFid = message?.data?.fid;
   const castFid = message?.data.frameActionBody.castId?.fid;
   const hash = message?.data.frameActionBody.castId?.hash;
+  // const hash = message?.hash;
 
   if (isValid && castFid) {
     // generate music based on the text in the cast
     const text =
-      body.data?.text ||
+      (body.data && body.data?.text) ||
       "Vivaldi is onchain Decentralized network called Farcaster"; // Send the text in the cast - Test here is killing me.
     const response = await fetch(process.env.AUDIO_GEN_API as string, {
       method: "POST",
@@ -96,7 +95,7 @@ app.hono.post("/api", async (c) => {
         wait_audio: true,
       }), // sent the text as the body of the request
     });
-
+    // Convert the hash to JSON format
     //Parse the JSON PROD
     const musicDataArray = (await response.json()) as musicData[];
     const musicData = musicDataArray[0];
@@ -119,21 +118,22 @@ app.hono.post("/api", async (c) => {
       dataOptions,
       ed25519Signer
     );
-
+    // Wait for the first cast to be confirmed before proceeding
+    await new Promise((resolve) => setTimeout(resolve, 3000)); // Delay to allow the cast to confirm
     // create the cast reply under the thread
     await makeCastAdd(
       {
         text: "Here's your Song!   ",
         embeds: [
-          { url: "audio_url" }, // audio URL here
+          { url: "musicData.audio_url" }, // audio URL here
         ],
         embedsDeprecated: [],
         mentions: [], // need to add FID mentions position
         mentionsPositions: [], // need to add FID mentions position
-        //parentCastId: {
-        //fid: castFid,
-        // hash,
-        // },
+        parentCastId: {
+          fid: castFid,
+          hash: hash,
+        },
       },
       dataOptions,
       ed25519Signer
@@ -177,7 +177,7 @@ app.hono.post("/api", async (c) => {
   }
 });
 
-//devtools(app, { serveStatic });
+devtools(app, { serveStatic });
 
 export const GET = handle(app);
 export const POST = handle(app);
