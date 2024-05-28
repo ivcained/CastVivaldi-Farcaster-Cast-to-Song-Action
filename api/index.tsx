@@ -3,6 +3,7 @@ import {
   NobleEd25519Signer,
   hexStringToBytes,
   Metadata,
+  Message,
   makeCastAdd,
   FarcasterNetwork,
   getSSLHubRpcClient,
@@ -15,7 +16,7 @@ import { serveStatic } from "@airstack/frog/serve-static";
 import { handle } from "@airstack/frog/vercel";
 import { config } from "dotenv";
 import { Buffer } from "buffer";
-//import { hexStringToBytes } from "@farcaster/core";
+import { hexToBytes } from "@noble/hashes/utils";
 
 // Audio Gen interface definitions
 interface musicData {
@@ -39,6 +40,9 @@ const ADD_URL =
   "https://warpcast.com/~/add-cast-action?actionType=post&name=CastVivaldi&icon=unmute&postUrl=https%3A%2F%2Fcastvivaldi.xyz%2Fapi%2Fapi%2F";
 //const ACCOUNT_PRIVATE_KEY: string = process.env.ACCOUNT_PRIVATE_KEY; // Your account key's private key
 const ACCOUNT_PRIVATE_KEY = process.env.ACCOUNT_PRIVATE_KEY as string; // Account Priv Key
+if (!ACCOUNT_PRIVATE_KEY) {
+  throw new Error("ACCOUNT_PRIVATE_KEY environment variable is not set."); // Check if ACCOUNT_PRIVATE_KEY is set
+}
 const FID = 490410; // Account FID
 let uint8ArrayPrivateKey = new Uint8Array(
   Buffer.from(ACCOUNT_PRIVATE_KEY, "hex")
@@ -70,6 +74,7 @@ function base64FromBytes(arr: Uint8Array): string {
 // Cast action handler
 app.hono.post("/api", async (c) => {
   const body = await c.req.json();
+  console.log("Request Body:", body); // Log the request body
   // validate the cast action
   const { isValid, message } = await validateFramesMessage(body);
   const interactorFid = message?.data?.fid;
@@ -82,6 +87,7 @@ app.hono.post("/api", async (c) => {
     const text =
       (body.data && body.data?.text) ||
       "Vivaldi is onchain Decentralized network called Farcaster"; // Send the text in the cast - Test here is killing me.
+    console.log("Text to be sent:", text); // Log the text to be sent
     const response = await fetch(process.env.AUDIO_GEN_API as string, {
       method: "POST",
       headers: {
@@ -123,7 +129,7 @@ app.hono.post("/api", async (c) => {
     // create the cast reply under the thread
     await makeCastAdd(
       {
-        text: "Here's your Song!   ",
+        text: "Here's your Song!",
         embeds: [
           { url: "musicData.audio_url" }, // audio URL here
         ],
@@ -176,8 +182,6 @@ app.hono.post("/api", async (c) => {
     return c.json({ message: "Uh Oh .. Unauthorized" }, 401);
   }
 });
-
 devtools(app, { serveStatic });
-
 export const GET = handle(app);
 export const POST = handle(app);
