@@ -3,20 +3,15 @@ import {
   NobleEd25519Signer,
   hexStringToBytes,
   Metadata,
-  Message,
   makeCastAdd,
   FarcasterNetwork,
   getSSLHubRpcClient,
-  CastId,
-  HashScheme,
-  hashSchemeToJSON,
 } from "@farcaster/hub-nodejs";
 import { devtools } from "@airstack/frog/dev";
 import { serveStatic } from "@airstack/frog/serve-static";
 import { handle } from "@airstack/frog/vercel";
 import { config } from "dotenv";
 import { Buffer } from "buffer";
-import { hexToBytes } from "@noble/hashes/utils";
 
 // Audio Gen interface definitions
 interface musicData {
@@ -59,34 +54,24 @@ export const app = new Frog({
   basePath: "/api",
   browserLocation: ADD_URL,
 });
-
-/*
 // function for base64
 function base64FromBytes(arr: Uint8Array) {
   return Buffer.from(arr).toString("base64");
 }
-
-/*function 2 for base64
-function base64FromBytes(arr: Uint8Array): string {
-  return Buffer.from(arr).toString("base64");
-}*/
-
 // Cast action handler
 app.hono.post("/api", async (c) => {
   const body = await c.req.json();
   console.log("Request Body:", body); // Log the request body
+  console.log("Request Body Data:", body.data);
   // validate the cast action
   const { isValid, message } = await validateFramesMessage(body);
   const interactorFid = message?.data?.fid;
-  const castFid = message?.data.frameActionBody.castId?.fid;
-  const hash = message?.data.frameActionBody.castId?.hash;
-  // const hash = message?.hash;
-
-  if (isValid && castFid) {
+  const castFid = message?.data.frameActionBody.castId;//?.fid;
+  const hash = hexStringToBytes(base64FromBytes(castFid?.hash as Uint8Array));
     // generate music based on the text in the cast
     const text =
       (body.data && body.data?.text) ||
-      "Vivaldi is onchain Decentralized network called Farcaster"; // Send the text in the cast - Test here is killing me.
+      "castvivaldi turns casts into songs on Farcaster"; // Send the text in the cast - Test here is killing me.
     console.log("Text to be sent:", text); // Log the text to be sent
     const response = await fetch(process.env.AUDIO_GEN_API as string, {
       method: "POST",
@@ -99,16 +84,15 @@ app.hono.post("/api", async (c) => {
         title: "Cast Vivaldi",
         make_instrumental: false,
         wait_audio: true,
-      }), // sent the text as the body of the request
+      }), // send the text as the body of the request
     });
     // Convert the hash to JSON format
-    //Parse the JSON PROD
+    // Parse the JSON PROD
     const musicDataArray = (await response.json()) as musicData[];
     const musicData = musicDataArray[0];
 
     //const musicData = await response.json(); // get the response data na
     // create the cast informing initiation reply under the thread na
-
     const castReplyResult = await makeCastAdd(
       {
         text: "Generating Song...",
@@ -117,7 +101,7 @@ app.hono.post("/api", async (c) => {
         mentions: [],
         mentionsPositions: [], // need to add FID mentions position
         parentCastId: {
-          fid: castFid,
+          fid: castFid?.fid as number,
           hash: hash, // hash
         },
       },
@@ -131,13 +115,13 @@ app.hono.post("/api", async (c) => {
       {
         text: "Here's your Song!",
         embeds: [
-          { url: "musicData.audio_url" }, // audio URL here
+          { url: musicData.audio_url }, // audio URL here uses the variable's value
         ],
         embedsDeprecated: [],
         mentions: [], // need to add FID mentions position
         mentionsPositions: [], // need to add FID mentions position
         parentCastId: {
-          fid: castFid,
+          fid: castFid?.fid as number,
           hash: hash,
         },
       },
