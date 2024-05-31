@@ -6,6 +6,7 @@ import {
   makeCastAdd,
   FarcasterNetwork,
   getSSLHubRpcClient,
+  Message,
 } from "@farcaster/hub-nodejs";
 import { devtools } from "@airstack/frog/dev";
 import { serveStatic } from "@airstack/frog/serve-static";
@@ -17,10 +18,10 @@ import { Buffer } from "buffer";
 interface musicData {
   id: string;
   title: string;
-  //image_url: string;
+  image_url: string;
   lyric: string;
   audio_url: string;
-  //video_url: string;
+  video_url: string;
   created_at: string;
   model_name: string;
   status: string;
@@ -132,9 +133,7 @@ app.hono.post("/api", async (c) => {
     ed25519Signer
   );
   // Create a client instance
-
   const client = getSSLHubRpcClient("hubs-grpc.airstack.xyz");
-
   client.$.waitForReady(Date.now() + 5000, async (e) => {
     if (e) {
       console.error(`Failed to connect to the gRPC server:`, e);
@@ -146,9 +145,8 @@ app.hono.post("/api", async (c) => {
       if (castReplyResult.isOk()) {
         // broadcast the cast throughout the Farcaster network
         const castAddMessage = castReplyResult.value;
-
         const submitResult = await client.submitMessage(
-          castAddMessage,
+          castAddMessage as Message,
           metadata
         );
         if (submitResult.isOk()) {
