@@ -1,4 +1,4 @@
-import { Frog, validateFramesMessage } from "@airstack/frog";
+import { Frog, validateFramesMessage, init, fetchQuery } from "@airstack/frog";
 import {
   NobleEd25519Signer,
   hexStringToBytes,
@@ -13,7 +13,7 @@ import { serveStatic } from "@airstack/frog/serve-static";
 import { handle } from "@airstack/frog/vercel";
 import { config } from "dotenv";
 import { Buffer } from "buffer";
-
+import fetch from "node-fetch";
 // Audio Gen interface definitions
 interface musicData {
   id: string;
@@ -30,7 +30,6 @@ interface musicData {
   type: string;
   tags: string;
 }
-
 config();
 const ADD_URL =
   "https://warpcast.com/~/add-cast-action?actionType=post&name=CastVivaldi&icon=unmute&postUrl=https%3A%2F%2Fcastvivaldi.xyz%2Fapi%2Fapi%2F";
@@ -59,6 +58,8 @@ export const app = new Frog({
 function base64FromBytes(arr: Uint8Array) {
   return Buffer.from(arr).toString("base64");
 }
+// Initialize the Airstack SDK w API
+init(process.env.AIRSTACK_API_KEY as string);
 // Cast action handler
 app.hono.post("/api", async (c) => {
   const body = await c.req.json();
@@ -71,7 +72,7 @@ app.hono.post("/api", async (c) => {
   const hash = hexStringToBytes(
     base64FromBytes(castFid?.hash as Uint8Array)
   )._unsafeUnwrap();
-  //const hash = hexStringToBytes(base64FromBytes(castFid?.hash as Uint8Array));
+
   // generate music based on the text in the cast
   const text =
     (body.data && body.data?.text) ||
@@ -146,7 +147,7 @@ app.hono.post("/api", async (c) => {
         // broadcast the cast throughout the Farcaster network
         const castAddMessage = castReplyResult.value;
         const submitResult = await client.submitMessage(
-          castAddMessage as Message,
+          castAddMessage,
           metadata
         );
         if (submitResult.isOk()) {
