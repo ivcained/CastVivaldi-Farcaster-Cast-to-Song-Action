@@ -67,7 +67,10 @@ app.hono.post("/api", async (c) => {
   const { isValid, message } = await validateFramesMessage(body);
   const interactorFid = message?.data?.fid;
   const castFid = message?.data.frameActionBody.castId;//?.fid;
-  const hash = hexStringToBytes(base64FromBytes(castFid?.hash as Uint8Array));
+  const hash = hexStringToBytes(
+    base64FromBytes(castFid?.hash as Uint8Array)
+  )._unsafeUnwrap();
+  //const hash = hexStringToBytes(base64FromBytes(castFid?.hash as Uint8Array));
     // generate music based on the text in the cast
     const text =
       (body.data && body.data?.text) ||
@@ -113,7 +116,7 @@ app.hono.post("/api", async (c) => {
     // create the cast reply under the thread
     await makeCastAdd(
       {
-        text: "Here's your Song!",
+        text: "▶︎ •၊၊||၊|။|||။|||။|||။၊|.Here's your Song!",
         embeds: [
           { url: musicData.audio_url }, // audio URL here uses the variable's value
         ],
@@ -143,6 +146,7 @@ app.hono.post("/api", async (c) => {
         if (castReplyResult.isOk()) {
           // broadcast the cast throughout the Farcaster network
           const castAddMessage = castReplyResult.value;
+          
           const submitResult = await client.submitMessage(
             castAddMessage,
             metadata
