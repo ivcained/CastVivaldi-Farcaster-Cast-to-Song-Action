@@ -1,5 +1,12 @@
 # 🐬 CastVivaldi - Turn Any Cast Into a Song with this Cast Action | Bot
 
+HOW DOES IT WORK?
+
+1: SUNO: https://suno.com/ 
+
+2: Use the SUNO AI API: [https://github.com/gcui-art/suno-api/]
+ 
+
 Cast Vivaldi is a cast action that allows users to transform any text-based cast on the Farcaster into a music track. Users can initiate this process by tapping the Vivaldi Cast Action button on any cast. The system, managed by the bot `@castvivaldi`, will first provide an estimated time for the music generation. Once the music track is ready, a second reply will be sent containing the generated song.
 
 The concept leverages the Farcaster network, a decentralized social network, and integrates with music generation algorithms to create unique audio content based on user input. As per the context provided, the feature undergoing continuous development and improvements.
