@@ -2,7 +2,8 @@
 
 HOW DOES IT WORK?
 
-1: SUNO: https://suno.com/ 
+1: Phase 1 we generate using SUNO: https://suno.com/ 
+   Phase 2 we generate using decentralized compute. 
 
 2: Use the SUNO AI API: [https://github.com/gcui-art/suno-api/]
  
