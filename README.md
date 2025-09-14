@@ -1,3 +1,4 @@
+CasttVivaldi has been archived and the project lives on as [@audify] (https://farcaster.xyz/audify) on farcaster. 
 # 🐬 CastVivaldi - Turn Any Cast Into a Song with this Cast Action | Bot
 
 HOW DOES IT WORK?
