@@ -1,4 +1,4 @@
-CasttVivaldi has been archived and the project lives on as [@audify]([https://farcaster.xyz/audify](https://github.com/ivcained/n8n-neynar-bot-template)) on farcaster. 
+CasttVivaldi has been archived and the project lives on as [@audify] ([https://farcaster.xyz/audify](https://github.com/ivcained/n8n-neynar-bot-template)) on farcaster. 
 # 🐬 CastVivaldi - Turn Any Cast Into a Song with this Cast Action | Bot
 
 HOW DOES IT WORK?
